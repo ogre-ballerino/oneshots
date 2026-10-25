@@ -1,0 +1,30 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment
+.env
+.env.production
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# obsidian (if src/content/ is opened as a vault)
+src/content/.obsidian/
+
+# session recordings and their raw transcripts
+audio/
+
+# OS
+.DS_Store
+
+# personal Claude Code instructions
+CLAUDE.local.md

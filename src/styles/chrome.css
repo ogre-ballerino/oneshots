@@ -1,0 +1,118 @@
+/* Header and footer, painted straight on the wall. */
+
+.site-header {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+/* Gilded letters carved into the plank, like an inn sign. */
+.site-header-title,
+.masthead-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--brass);
+  background: linear-gradient(175deg, #f6dc98, var(--brass) 45%, var(--brass-deep));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 -1px 0 rgb(0 0 0 / 0.6)) drop-shadow(0 1px 0 rgb(255 236 190 / 0.18));
+}
+
+.site-header-title {
+  font-size: 1.4rem;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.4rem;
+  font-size: 1.05rem;
+}
+
+.site-nav a {
+  padding-bottom: 0.1rem;
+  border-bottom: 2px solid transparent;
+  color: var(--on-wood);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current='page'] {
+  border-bottom-color: var(--brass);
+  color: var(--on-wood);
+}
+
+.site-header-masthead {
+  padding-top: 4.5rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+}
+
+.masthead-title {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(3rem, 10vw, 5.75rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.masthead-lede {
+  max-width: 34rem;
+  margin: 1.25rem 0 0;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--on-wood-muted);
+}
+
+.masthead-lede a,
+.site-footer a {
+  color: var(--on-wood);
+  text-decoration-color: var(--brass);
+}
+
+.masthead-lede a:hover,
+.site-footer a:hover {
+  color: var(--brass);
+}
+
+.site-header-masthead .site-nav {
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding-top: 1.25rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .site-nav {
+    justify-content: center;
+    gap: 0.25rem 1rem;
+  }
+
+  .site-header-masthead {
+    padding-top: 3rem;
+  }
+}
+
+.site-footer {
+  padding: 1rem 1rem 3rem;
+  text-align: center;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--on-wood-muted);
+}
+
+.site-footer p {
+  margin: 0;
+}

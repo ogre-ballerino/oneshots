@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Avatar from './Avatar.astro';
+import Stamp from './Stamp.astro';
+import { toRoman, longDate } from '../lib/format';
+import { systemLabel } from '../lib/systems';
+import { partyOf } from '../lib/party';
+
+interface Props {
+  adventure: CollectionEntry<'avventure'>;
+}
+const { adventure } = Astro.props;
+const { numero, titolo, data, sistema, livello, estratto, esito } = adventure.data;
+const party = await partyOf(adventure);
+const names = new Intl.ListFormat('it', { type: 'conjunction' }).format(party.map((p) => p.data.titolo));
+---
+<article class="notice">
+  {esito && <Stamp label={esito} />}
+  <p class="notice-number">Avviso n° {toRoman(numero)}</p>
+  <h2 class="notice-title"><a href={`/avventure/${adventure.id}`}>{titolo}</a></h2>
+  <p class="notice-terms">
+    {systemLabel(sistema)}{livello && <>, livello {livello}</>}
+    <br />
+    <time datetime={data.toISOString().slice(0, 10)}>{longDate(data)}</time>
+  </p>
+  {estratto && <p class="notice-excerpt">{estratto}</p>}
+  {party.length > 0 && (
+    <div class="notice-party">
+      <span class="avatar-stack">
+        {party.map((p) => <Avatar character={p} size="sm" />)}
+      </span>
+      <p>con {names}</p>
+    </div>
+  )}
+</article>

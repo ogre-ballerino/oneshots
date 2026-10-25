@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuestCard from '../../components/QuestCard.astro';
+import { getCollection } from 'astro:content';
+
+const adventures = (await getCollection('avventure')).sort((a, b) => b.data.numero - a.data.numero);
+---
+<BaseLayout title="Avventure" description="Tutte le one-shot appese alla bacheca, dalla più recente: sistema, livello, data e chi le ha giocate.">
+  <h1 class="board-title">Avventure</h1>
+  <p class="board-lede">Ogni one-shot giocata, dalla più recente.</p>
+  <div class="board">
+    {adventures.map((adventure) => <QuestCard adventure={adventure} />)}
+  </div>
+</BaseLayout>

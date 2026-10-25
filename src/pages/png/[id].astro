@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+
+export async function getStaticPaths() {
+  const npcs = await getCollection('png');
+  return npcs.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { ruolo, luogo, fazione } = entry.data;
+---
+<EntryLayout
+  title={entry.data.titolo}
+  description={entry.data.estratto}
+  fields={[
+    ['Ruolo', ruolo],
+    // Skip the place when the role already names it ("Oste del Drago Verde").
+    ['Luogo', luogo && !ruolo?.includes(luogo) ? luogo : undefined],
+    ['Fazione', fazione],
+  ]}
+  status={entry.data.stato}
+  tags={entry.data.tag}
+  backlinksUrl={`/png/${entry.id}`}
+>
+  <Content />
+</EntryLayout>

@@ -1,0 +1,206 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Form controls always sit on paper. */
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-wood);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  background-color: var(--wood);
+  background-image:
+    radial-gradient(ellipse 70rem 34rem at 50% 0, var(--lantern), transparent 75%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.22 0.0045' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.04 0 0 0 0 0.02 0.9 0 0 0 -0.32'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.035) 0 11rem,
+      rgb(0 0 0 / 0.07) 11rem 22rem,
+      transparent 22rem 33rem
+    ),
+    repeating-linear-gradient(90deg, transparent 0 calc(11rem - 2px), var(--wood-seam) calc(11rem - 2px) 11rem);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+::selection {
+  background: var(--rubric);
+  color: var(--paper-note);
+}
+
+a {
+  color: var(--rubric);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--ink);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+main {
+  padding: 3.5rem 0 4rem;
+}
+
+/* Paper, and the pins that hold it to the wall. */
+
+.notice,
+.sheet,
+.regular,
+.marginalia {
+  position: relative;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(ellipse at 30% 15%, rgb(255 255 255 / 0.28), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, var(--paper-edge));
+  box-shadow: var(--shadow-on-wood);
+}
+
+.notice::before,
+.sheet::before,
+.sheet::after,
+.regular::before,
+.marginalia::before {
+  content: '';
+  position: absolute;
+  top: 0.65rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.55), transparent 32%),
+    var(--pin-color, var(--pin));
+  box-shadow:
+    1px 2px 0 rgb(0 0 0 / 0.22),
+    3px 5px 5px rgb(0 0 0 / 0.35);
+}
+
+.wikilink {
+  text-decoration-color: color-mix(in srgb, var(--rubric) 45%, transparent);
+}
+
+.wikilink-broken {
+  color: var(--ink-muted);
+  text-decoration: underline dotted var(--hairline);
+  cursor: help;
+}
+
+/* Ink stamps: an adventure's outcome, a character's fate. */
+.stamp {
+  position: absolute;
+  top: 1.5rem;
+  right: 1rem;
+  z-index: 1;
+  padding: 0.1rem 0.55rem 0;
+  border: 0.22rem double currentColor;
+  border-radius: 0.3rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  rotate: -12deg;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.stamp-good {
+  color: var(--stamp-good);
+}
+
+.stamp-bad {
+  color: var(--stamp-bad);
+}
+
+.stamp-neutral {
+  color: var(--stamp-neutral);
+}
+
+/* Character avatars; without a portrait, a wax seal with their initials. */
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: var(--paper-edge);
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 1px 3px rgb(0 0 0 / 0.35);
+}
+
+.avatar-sm {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.8rem;
+}
+
+.avatar-md {
+  width: 3.75rem;
+  height: 3.75rem;
+  font-size: 1.2rem;
+}
+
+.avatar-lg {
+  width: 5.5rem;
+  height: 5.5rem;
+  font-size: 1.9rem;
+}
+
+.avatar-monogram {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: rgb(255 228 214 / 0.9);
+  background: radial-gradient(circle at 35% 30%, #c4453f, #8e1c1f 60%, #5c0f12);
+}

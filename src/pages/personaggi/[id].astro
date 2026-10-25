@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+import { fullPortrait } from '../../lib/portraits';
+import { systemLabel } from '../../lib/systems';
+
+export async function getStaticPaths() {
+  const characters = await getCollection('personaggi');
+  return characters.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { classe, razza, sistema, giocatore } = entry.data;
+---
+<EntryLayout
+  title={entry.data.titolo}
+  description={entry.data.estratto}
+  fields={[
+    ['Classe', classe],
+    ['Razza', razza],
+    ['Sistema', systemLabel(sistema)],
+    ['Giocatore', giocatore],
+  ]}
+  status={entry.data.stato}
+  tags={entry.data.tag}
+  backlinksUrl={`/personaggi/${entry.id}`}
+  image={fullPortrait(entry.id) ?? entry.data.immagine}
+>
+  <Content />
+</EntryLayout>

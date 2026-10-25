@@ -1,0 +1,65 @@
+---
+import '@fontsource/cinzel/400.css';
+import '@fontsource/cinzel/700.css';
+import '@fontsource/lora/400.css';
+import '@fontsource/lora/400-italic.css';
+import '@fontsource/lora/600.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/chrome.css';
+import '../styles/board.css';
+import '../styles/entry.css';
+import '../styles/lists.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { siteName, siteDescription } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article';
+  masthead?: boolean;
+}
+const { title, description = siteDescription, type = 'website', masthead = false } = Astro.props;
+const pageTitle = title ? `${title} · ${siteName}` : siteName;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('/images/og.png', Astro.site);
+const ogImageAlt = `${siteName}: avvisi di avventura appesi a una bacheca di legno`;
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+  </head>
+  <body>
+    <Header masthead={masthead} />
+    <main>
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

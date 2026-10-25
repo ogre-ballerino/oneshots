@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Avatar from './Avatar.astro';
+import { adventureCount } from '../lib/party';
+import { fullPortrait } from '../lib/portraits';
+import { isAlive } from '../lib/stato.mjs';
+
+interface Props {
+  detailed?: boolean;
+}
+const { detailed = false } = Astro.props;
+
+// Whoever has played the most one-shots comes first.
+const regulars = (
+  await Promise.all(
+    (await getCollection('personaggi')).map(async (character) => ({
+      character,
+      count: await adventureCount(character),
+      portrait: fullPortrait(character.id) ?? character.data.immagine,
+    }))
+  )
+).toSorted((a, b) => b.count - a.count || a.character.data.titolo.localeCompare(b.character.data.titolo));
+---
+{regulars.length > 0 && (
+  <ul class="regulars">
+    {regulars.map(({ character, count, portrait }) => (
+      <li class="regular">
+        {portrait ? (
+          <img class="regular-portrait" src={portrait} alt="" loading="lazy" />
+        ) : (
+          <span class="regular-portrait"><Avatar character={character} size="lg" /></span>
+        )}
+        <h3 class="regular-name">
+          <a href={`/personaggi/${character.id}`}>{character.data.titolo}</a>
+        </h3>
+        <p class="regular-count">
+          {count === 1 ? '1 avventura' : `${count} avventure`}
+          {!isAlive(character.data.stato) && <>, {character.data.stato}</>}
+        </p>
+        {detailed && character.data.classe && <p class="regular-class">{character.data.classe}</p>}
+        {detailed && character.data.estratto && <p class="regular-excerpt">{character.data.estratto}</p>}
+      </li>
+    ))}
+  </ul>
+)}

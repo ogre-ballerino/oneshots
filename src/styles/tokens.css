@@ -1,0 +1,51 @@
+/* The site is a tavern wall: oak planks with paper pinned to them. Everything
+   meant to be read sits on paper, so dark mode only dims the wall and lights
+   it like a lantern; the paper stays paper. */
+
+:root {
+  --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+
+  --wood: #6c4a30;
+  --wood-deep: #4a301f;
+  --wood-seam: #2c1c11;
+  --on-wood: #f3e6c8;
+  --on-wood-muted: #d9c39b;
+  --brass: #e0b45c;
+  --brass-deep: #a87a2c;
+  --lantern: transparent;
+
+  --paper: #ecdfbf;
+  --paper-edge: #e0cea3;
+  --paper-note: #f3e9cf;
+  --ink: #2a1f16;
+  --ink-muted: #6a5540;
+  --hairline: #c9b68c;
+  --rubric: #8a2318;
+
+  --pin: #b0262c;
+  --stamp-good: #2c6649;
+  --stamp-bad: #a1262a;
+  --stamp-neutral: #7a5a2e;
+
+  --shadow-on-wood: 0 1px 1px rgb(24 12 4 / 0.35), 0 14px 22px -12px rgb(24 12 4 / 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wood: #2e2016;
+    --wood-deep: #1f150d;
+    --wood-seam: #110a06;
+    --on-wood: #ead8b2;
+    --on-wood-muted: #b8a17a;
+    --brass: #d7a74e;
+    --lantern: rgb(255 184 96 / 0.13);
+
+    --paper: #dccca7;
+    --paper-edge: #cdb98d;
+    --paper-note: #e3d5b4;
+    --hairline: #b5a077;
+
+    --shadow-on-wood: 0 1px 1px rgb(0 0 0 / 0.5), 0 16px 26px -12px rgb(0 0 0 / 0.85);
+  }
+}

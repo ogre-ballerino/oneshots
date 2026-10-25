@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/search.css';
+---
+<BaseLayout title="Cerca" description="Cerca tra avventure, personaggi, PNG e luoghi delle one-shot.">
+  <style is:inline>
+    /* In a layer so the site rules beat Pagefind's inflated specificity. */
+    @import url('/pagefind/pagefind-component-ui.css') layer(pagefind);
+  </style>
+  <div class="sheet">
+    <h1 class="page-title">Cerca</h1>
+    <p class="page-lede">Cerca tra avventure, personaggi, png e luoghi.</p>
+
+    <div class="search">
+      <pagefind-input placeholder="Un nome, un luogo, un mostro…" autofocus></pagefind-input>
+      <div class="search-bar">
+        <pagefind-summary></pagefind-summary>
+        <pagefind-filter-dropdown filter="sezione" label="Sezione" hide-clear></pagefind-filter-dropdown>
+      </div>
+      <pagefind-results show-sub-results></pagefind-results>
+      <p class="search-unavailable" hidden>
+        Indice di ricerca non disponibile: viene generato solo da <code>pnpm build</code>
+        (provalo con <code>pnpm preview</code>).
+      </p>
+    </div>
+  </div>
+
+  <script is:inline type="module" src="/pagefind/pagefind-component-ui.js"></script>
+  <script is:inline type="module">
+    const pagefind = window.PagefindComponents;
+    if (!pagefind) {
+      document.querySelector('.search-unavailable').hidden = false;
+    } else {
+      const instance = pagefind.getInstanceManager().getInstance('default');
+      // The stock Italian translation renders clear_search as "Cancella la cronologia".
+      instance.setTranslations({ clear_search: 'Cancella' });
+      const q = new URLSearchParams(location.search).get('q');
+      if (q) instance.triggerSearch(q);
+    }
+  </script>
+</BaseLayout>

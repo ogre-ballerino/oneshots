@@ -1,0 +1,251 @@
+/* The board: one paper notice per one-shot, pinned slightly askew. */
+
+.board-title {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  color: var(--on-wood);
+}
+
+.board-lede {
+  margin: 0.4rem 0 2.75rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--on-wood-muted);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 21rem));
+  justify-content: center;
+  align-items: start;
+  gap: 2.75rem 2.25rem;
+}
+
+.board-more {
+  margin: 2.5rem 0 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.board-more a {
+  color: var(--on-wood);
+  text-decoration-color: var(--brass);
+}
+
+.board-section {
+  margin-top: 6rem;
+}
+
+.notice {
+  padding: 2.4rem 1.6rem 1.6rem;
+  rotate: var(--tilt, -1deg);
+  transition: rotate 160ms ease-out, translate 160ms ease-out;
+}
+
+.notice:nth-child(4n + 2) {
+  --tilt: 0.8deg;
+  --pin-color: var(--brass-deep);
+  margin-top: 1.25rem;
+}
+
+.notice:nth-child(4n + 3) {
+  --tilt: -0.4deg;
+}
+
+.notice:nth-child(4n + 4) {
+  --tilt: 1.5deg;
+  --pin-color: var(--brass-deep);
+  margin-top: 0.75rem;
+}
+
+.notice:has(.notice-title a:hover),
+.notice:focus-within {
+  rotate: 0deg;
+  translate: 0 -3px;
+}
+
+.notice:has(.notice-title a:focus-visible) {
+  outline: 2px solid var(--brass);
+  outline-offset: 4px;
+}
+
+.notice::before {
+  left: calc(50% - 0.475rem);
+}
+
+.notice .stamp {
+  top: 0.7rem;
+  right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.notice-number {
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+.notice-title {
+  margin: 0.35rem 0 0.6rem;
+  text-align: center;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.notice-title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.notice-title a:focus-visible {
+  outline: none;
+}
+
+/* The whole notice is the link. */
+.notice-title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.notice-terms {
+  margin: 0;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--hairline);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.notice-excerpt {
+  margin: 0.9rem 0 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  hyphens: auto;
+}
+
+.notice-party {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.notice-party p {
+  margin: 0;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+.avatar-stack {
+  display: flex;
+  flex: none;
+}
+
+.avatar-stack .avatar + .avatar {
+  margin-left: -0.6rem;
+}
+
+.notice-empty {
+  max-width: 26rem;
+  grid-column: 1 / -1;
+  justify-self: center;
+  text-align: center;
+}
+
+.notice-empty .notice-excerpt {
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+/* The regulars: portraits pinned along the wall. */
+
+.regulars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 13rem));
+  justify-content: center;
+  align-items: start;
+  gap: 2.25rem clamp(1rem, 4vw, 2rem);
+}
+
+.regular {
+  padding: 0.75rem 0.75rem 1rem;
+  text-align: center;
+  rotate: var(--tilt, 1deg);
+}
+
+.regular:nth-child(3n + 2) {
+  --tilt: -1.2deg;
+}
+
+.regular:nth-child(3n + 3) {
+  --tilt: 0.4deg;
+}
+
+.regular::before {
+  --pin-color: var(--brass-deep);
+  left: calc(50% - 0.475rem);
+  top: -0.4rem;
+}
+
+.regular-portrait {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: top;
+  background: var(--paper-edge);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+}
+
+img.regular-portrait {
+  filter: sepia(0.25) saturate(0.9);
+}
+
+.regular-name {
+  margin: 0.8rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.regular-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.regular-name a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.regular:has(a:hover) .regular-name a {
+  color: var(--rubric);
+}
+
+.regular-count,
+.regular-class {
+  margin: 0.15rem 0 0;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+.regular-excerpt {
+  margin: 0.6rem 0 0;
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  hyphens: auto;
+}

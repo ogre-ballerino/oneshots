@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CardGrid from '../../components/CardGrid.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const places = (await getCollection('luoghi')).sort((a, b) => a.data.titolo.localeCompare(b.data.titolo));
+---
+<BaseLayout title="Luoghi" description="I luoghi attraversati o sentiti nominare nelle one-shot della bacheca.">
+  <div class="sheet">
+    <h1 class="page-title">Luoghi</h1>
+    <p class="page-lede">Città, dungeon, locande e terre selvagge attraversati nelle avventure.</p>
+    <CardGrid>
+      {places.map((l) => (
+        <Card
+          href={`/luoghi/${l.id}`}
+          title={l.data.titolo}
+          excerpt={l.data.estratto}
+          meta={[l.data.tipo, l.data.regione].filter(Boolean).join(', ')}
+          image={l.data.immagine}
+        />
+      ))}
+    </CardGrid>
+    {places.length === 0 && <p class="page-lede">Ancora nessun luogo: compariranno qui con la prima avventura.</p>}
+  </div>
+</BaseLayout>

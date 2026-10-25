@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+import Avatar from '../../components/Avatar.astro';
+import Stamp from '../../components/Stamp.astro';
+import { toRoman, longDate } from '../../lib/format';
+import { systemLabel } from '../../lib/systems';
+import { partyOf } from '../../lib/party';
+
+export async function getStaticPaths() {
+  const adventures = (await getCollection('avventure')).sort((a, b) => a.data.numero - b.data.numero);
+  return adventures.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, prev: adventures[i - 1], next: adventures[i + 1] },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const { numero, data, sistema, livello, fonte, ambientazione, master, esito } = entry.data;
+const party = await partyOf(entry);
+---
+<EntryLayout
+  title={entry.data.titolo}
+  description={entry.data.estratto}
+  kicker={`Avviso n° ${toRoman(numero)}`}
+  fields={[
+    ['Sistema', systemLabel(sistema)],
+    ['Livello', livello?.toString()],
+    ['Giocata il', longDate(data)],
+    ['Tratta da', fonte],
+    ['Ambientazione', ambientazione],
+    ['Master', master],
+  ]}
+  tags={entry.data.tag}
+  backlinksUrl={`/avventure/${entry.id}`}
+>
+  <Fragment slot="lead">
+    {esito && <Stamp label={esito} />}
+    {party.length > 0 && (
+      <section class="party" data-pagefind-ignore>
+        <h2>La compagnia</h2>
+        <ul>
+          {party.map((p) => (
+            <li>
+              <a href={`/personaggi/${p.id}`}>
+                <Avatar character={p} />
+                <span>{p.data.titolo}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </Fragment>
+  <Content />
+  <nav slot="after" class="entry-pager" aria-label="Altre avventure">
+    {prev && (
+      <a href={`/avventure/${prev.id}`}>
+        <span class="entry-pager-label">Avviso precedente</span>
+        {prev.data.titolo}
+      </a>
+    )}
+    {next && (
+      <a class="entry-pager-next" href={`/avventure/${next.id}`}>
+        <span class="entry-pager-label">Avviso successivo</span>
+        {next.data.titolo}
+      </a>
+    )}
+  </nav>
+</EntryLayout>

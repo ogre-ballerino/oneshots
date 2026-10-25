@@ -1,0 +1,8 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+const tones: Record<string, string> = { compiuta: 'good', fallita: 'bad', morto: 'bad', morta: 'bad' };
+---
+<span class={`stamp stamp-${tones[label] ?? 'neutral'}`}>{label}</span>

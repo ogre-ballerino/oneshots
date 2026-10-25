@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getBacklinksFor } from '../../lib/backlinks';
+import { isAlive, isDead } from '../../lib/stato.mjs';
+
+const npcs = (await getCollection('png')).sort((a, b) => a.data.titolo.localeCompare(b.data.titolo));
+const adventures = (await getCollection('avventure')).sort((a, b) => b.data.numero - a.data.numero);
+
+// Each NPC is listed under the first adventure that mentions them.
+const firstSeen = new Map<string, string>();
+for (const npc of npcs) {
+  const [first] = (await getBacklinksFor(`/png/${npc.id}`))
+    .filter((l) => l.url.startsWith('/avventure/'))
+    .toSorted((a, b) => (a.numero ?? 0) - (b.numero ?? 0));
+  if (first) firstSeen.set(npc.id, first.url);
+}
+
+const groups = [
+  ...adventures.map((a) => ({
+    title: a.data.titolo,
+    url: `/avventure/${a.id}`,
+    npcs: npcs.filter((n) => firstSeen.get(n.id) === `/avventure/${a.id}`),
+  })),
+  { title: 'Altri', url: undefined, npcs: npcs.filter((n) => !firstSeen.has(n.id)) },
+].filter((g) => g.npcs.length > 0);
+---
+<BaseLayout title="PNG" description="I personaggi non giocanti incontrati nelle one-shot, raggruppati per avventura: alleati, nemici e comparse.">
+  <div class="sheet">
+    <h1 class="page-title">Personaggi non giocanti</h1>
+    <p class="page-lede">Alleati, nemici e comparse, sotto l'avventura in cui sono comparsi la prima volta.</p>
+    {groups.map((g) => (
+      <section class="playbill-group">
+        <h2>{g.url ? <a href={g.url}>{g.title}</a> : g.title}</h2>
+        <ul class="playbill">
+          {g.npcs.map((p) => (
+            <li>
+              <a class="playbill-name" href={`/png/${p.id}`}>
+                {p.data.titolo}
+                {isDead(p.data.stato) && (
+                  <><span class="playbill-dagger" aria-hidden="true">&dagger;</span><span class="sr-only">({p.data.stato})</span></>
+                )}
+              </a>
+              <span class="playbill-role">
+                {p.data.ruolo}
+                {!isAlive(p.data.stato) && !isDead(p.data.stato) && (
+                  <>{p.data.ruolo && ', '}{p.data.stato}</>
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    {npcs.length === 0 && <p class="page-lede">Ancora nessun PNG: compariranno qui con la prima avventura.</p>}
+  </div>
+</BaseLayout>

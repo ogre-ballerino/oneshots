@@ -1,0 +1,72 @@
+.search {
+  --pf-text: var(--ink);
+  --pf-text-secondary: var(--ink-muted);
+  --pf-text-muted: var(--ink-muted);
+  --pf-background: var(--paper-note);
+  --pf-border: var(--hairline);
+  --pf-border-focus: var(--ink);
+  --pf-skeleton: var(--hairline);
+  --pf-skeleton-shine: var(--paper);
+  --pf-hover: rgb(106 85 64 / 0.1);
+  --pf-mark: var(--rubric);
+  --pf-outline-focus: var(--brass);
+  --pf-shadow-sm: none;
+  --pf-shadow-md: 0 4px 12px rgb(42 31 22 / 0.18);
+  --pf-font: var(--font-body);
+  --pf-input-height: 48px;
+  --pf-input-font-size: 1.15rem;
+  --pf-summary-font-size: 1rem;
+  --pf-result-title-font-size: 1.25rem;
+  --pf-result-excerpt-font-size: 1rem;
+  --pf-border-radius: 0;
+  --pf-results-gap: 1rem;
+}
+
+.search .pf-result-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.search .pf-result-card {
+  padding: 1rem 0;
+  border: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.search .pf-heading-chip {
+  padding: 0.2rem 0 0.2rem 0.9rem;
+  border: 0;
+  border-left: 1px solid var(--hairline);
+  border-radius: 0;
+}
+
+.search .pf-heading-link::before {
+  content: none;
+}
+
+.search .pf-heading-link {
+  font-size: 1rem;
+}
+
+.search .pf-heading-excerpt {
+  font-size: 0.95rem;
+}
+
+.search button,
+.search input {
+  font-family: var(--font-body);
+}
+
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.search-unavailable {
+  font-style: italic;
+  color: var(--ink-muted);
+}

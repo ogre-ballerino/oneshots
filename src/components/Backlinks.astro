@@ -1,0 +1,35 @@
+---
+import { getBacklinksFor } from '../lib/backlinks';
+
+interface Props {
+  url: string;
+}
+const { url } = Astro.props;
+const backlinks = (await getBacklinksFor(url)).toSorted((a, b) => (a.numero ?? 0) - (b.numero ?? 0));
+
+const sections = [
+  { prefix: 'avventure', label: 'Avventure' },
+  { prefix: 'personaggi', label: 'Personaggi' },
+  { prefix: 'png', label: 'Png' },
+  { prefix: 'luoghi', label: 'Luoghi' },
+]
+  .map((s) => ({ ...s, links: backlinks.filter((l) => l.url.split('/')[1] === s.prefix) }))
+  .filter((s) => s.links.length > 0);
+---
+{sections.length > 0 && (
+  <div class="backlinks">
+    <h2>Menzionato in</h2>
+    <dl>
+      {sections.map((s) => (
+        <>
+          <dt>{s.label}</dt>
+          <dd>
+            <ul>
+              {s.links.map((link) => <li><a href={link.url}>{link.title}</a></li>)}
+            </ul>
+          </dd>
+        </>
+      ))}
+    </dl>
+  </div>
+)}

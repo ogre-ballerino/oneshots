@@ -1,0 +1,37 @@
+---
+import { siteName } from '../lib/site';
+
+interface Props {
+  masthead?: boolean;
+}
+const { masthead = false } = Astro.props;
+
+const links = [
+  { href: '/avventure/', label: 'Avventure' },
+  { href: '/personaggi/', label: 'Personaggi' },
+  { href: '/png/', label: 'Png' },
+  { href: '/luoghi/', label: 'Luoghi' },
+  { href: '/cerca/', label: 'Cerca' },
+];
+
+const path = Astro.url.pathname;
+const isWithin = (href: string) => path === href.slice(0, -1) || path.startsWith(href);
+---
+<header class:list={['site-header', { 'site-header-masthead': masthead }]}>
+  {masthead ? (
+    <>
+      <h1 class="masthead-title">{siteName}</h1>
+      <p class="masthead-lede">
+        Le one-shot giocate all'<a href="https://ogreballerino.com">Ogre Ballerino</a>, appese alla bacheca una
+        serata dopo l'altra.
+      </p>
+    </>
+  ) : (
+    <a href="/" class="site-header-title">{siteName}</a>
+  )}
+  <nav class="site-nav" aria-label="Navigazione principale">
+    {links.map((l) => (
+      <a href={l.href} aria-current={isWithin(l.href) ? 'page' : undefined}>{l.label}</a>
+    ))}
+  </nav>
+</header>

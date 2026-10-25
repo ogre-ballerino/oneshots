@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+
+export async function getStaticPaths() {
+  const places = await getCollection('luoghi');
+  return places.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<EntryLayout
+  title={entry.data.titolo}
+  description={entry.data.estratto}
+  fields={[
+    ['Tipo', entry.data.tipo],
+    ['Regione', entry.data.regione],
+  ]}
+  tags={entry.data.tag}
+  backlinksUrl={`/luoghi/${entry.id}`}
+  image={entry.data.immagine}
+>
+  <Content />
+</EntryLayout>

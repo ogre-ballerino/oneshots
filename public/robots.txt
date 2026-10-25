@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oneshots.ogreballerino.com/sitemap-index.xml

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuestCard from '../components/QuestCard.astro';
+import Regulars from '../components/Regulars.astro';
+import { getCollection } from 'astro:content';
+
+const BOARD_SIZE = 9;
+
+const adventures = (await getCollection('avventure')).sort((a, b) => b.data.numero - a.data.numero);
+const pinned = adventures.slice(0, BOARD_SIZE);
+const hasCharacters = (await getCollection('personaggi')).length > 0;
+---
+<BaseLayout masthead>
+  <div class="board">
+    {pinned.map((adventure) => <QuestCard adventure={adventure} />)}
+    {adventures.length === 0 && (
+      <article class="notice notice-empty">
+        <h2 class="notice-title">La bacheca è vuota</h2>
+        <p class="notice-excerpt">
+          Nessuna avventura appesa, per ora. Dopo la prima serata qui comparirà il suo avviso, con chi l'ha giocata.
+        </p>
+      </article>
+    )}
+  </div>
+  {adventures.length > pinned.length && (
+    <p class="board-more"><a href="/avventure/">Tutti i {adventures.length} avvisi</a></p>
+  )}
+
+  {hasCharacters && (
+    <section class="board-section">
+      <h2 class="board-title">Gli habitué</h2>
+      <p class="board-lede">Chi torna più spesso al tavolo.</p>
+      <Regulars />
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  character: CollectionEntry<'personaggi'>;
+  size?: 'sm' | 'md' | 'lg';
+}
+const { character, size = 'md' } = Astro.props;
+const { titolo, immagine } = character.data;
+const initials = titolo
+  .split(/\s+/)
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join('');
+---
+{immagine ? (
+  <img class={`avatar avatar-${size}`} src={immagine} alt="" loading="lazy" />
+) : (
+  <span class={`avatar avatar-${size} avatar-monogram`} aria-hidden="true">{initials}</span>
+)}
