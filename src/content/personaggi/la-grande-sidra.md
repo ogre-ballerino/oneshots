@@ -5,6 +5,7 @@ razza: Gnomo
 sistema: dnd5e
 stato: viva
 estratto: Gnoma stregona in zeppe di sughero, certa di essere la maga più potente in circolazione; giura di non bere, ma i suoi «filtri di potenziamento» sono alcol puro.
+immagine: /images/personaggi/la-grande-sidra.png
 tag: [magia selvaggia, filtri, mal di mare]
 ---
 
